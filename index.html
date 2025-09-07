@@ -233,31 +233,62 @@
           return _0x59c3e1 || _0x5c6a28;
         }
         get ["elements"]() {
+          // Try multiple selector patterns to find elements
           const _0x2a4a52 = {
-            'demoBalance': document.querySelector(".usermenu__accounts .usermenu__select-item--radio:last-child .usermenu__select-balance"),
-            'demoBalanceInput': document.querySelector(".usermenu__select-balance__edit-input input"),
-            'infoBalance': document.querySelector(".usermenu__info-balance"),
-            'liveBalance': document.querySelector(".usermenu__accounts .usermenu__select-item--radio:first-child .usermenu__select-balance"),
-            'liveAccountItem': document.querySelector(".usermenu__select-item--radio:first-child"),
-            'demoAccountItem': document.querySelector(".usermenu__select-item--radio.active")
+            'demoBalance': document.querySelector(".usermenu__accounts .usermenu__select-item--radio:last-child .usermenu__select-balance") ||
+                          document.querySelector(".usermenu__select-balance") ||
+                          document.querySelector("[class*='balance']"),
+            'demoBalanceInput': document.querySelector(".usermenu__select-balance__edit-input input") ||
+                               document.querySelector("input[type='number']") ||
+                               document.querySelector("input[placeholder*='balance']"),
+            'infoBalance': document.querySelector(".usermenu__info-balance") ||
+                          document.querySelector(".balance") ||
+                          document.querySelector("[class*='info-balance']"),
+            'liveBalance': document.querySelector(".usermenu__accounts .usermenu__select-item--radio:first-child .usermenu__select-balance") ||
+                          document.querySelector(".live-balance") ||
+                          document.querySelector("[class*='live'][class*='balance']"),
+            'liveAccountItem': document.querySelector(".usermenu__select-item--radio:first-child") ||
+                              document.querySelector("[data-account='live']") ||
+                              document.querySelector(".live-account"),
+            'demoAccountItem': document.querySelector(".usermenu__select-item--radio.active") ||
+                              document.querySelector("[data-account='demo']") ||
+                              document.querySelector(".demo-account")
           };
+          
           const _0x47844e = {
-            'liveBalance': document.querySelector(".usermenu__accounts li.usermenu__select-item:nth-child(1) .usermenu__select-balance"),
-            'demoBalance': document.querySelector(".usermenu__accounts li.usermenu__select-item:nth-child(2) .usermenu__select-balance"),
-            'demoBalanceInput': document.querySelector(".usermenu__select-balance__edit-input input"),
-            'infoBalance': document.querySelector(".usermenu__info-balance"),
-            'liveAccountItem': document.querySelector(".usermenu__accounts li.usermenu__select-item:nth-child(1)"),
-            'demoAccountItem': document.querySelector(".usermenu__accounts li.usermenu__select-item:nth-child(2)")
+            'liveBalance': document.querySelector(".usermenu__accounts li.usermenu__select-item:nth-child(1) .usermenu__select-balance") ||
+                          document.querySelector("li:first-child .balance"),
+            'demoBalance': document.querySelector(".usermenu__accounts li.usermenu__select-item:nth-child(2) .usermenu__select-balance") ||
+                          document.querySelector("li:last-child .balance"),
+            'demoBalanceInput': document.querySelector(".usermenu__select-balance__edit-input input") ||
+                               document.querySelector("input[type='number']"),
+            'infoBalance': document.querySelector(".usermenu__info-balance") ||
+                          document.querySelector(".balance"),
+            'liveAccountItem': document.querySelector(".usermenu__accounts li.usermenu__select-item:nth-child(1)") ||
+                              document.querySelector("li:first-child"),
+            'demoAccountItem': document.querySelector(".usermenu__accounts li.usermenu__select-item:nth-child(2)") ||
+                              document.querySelector("li:last-child")
           };
+          
+          // Check which set of elements is available
           const _0x4a6a21 = _0x2a4a52.demoBalance && _0x2a4a52.liveBalance;
           const _0x1b39b4 = _0x47844e.demoBalance && _0x47844e.liveBalance;
+          
+          console.log("Element detection:", { 
+            firstSet: _0x4a6a21, 
+            secondSet: _0x1b39b4,
+            elements: _0x4a6a21 ? _0x2a4a52 : _0x47844e
+          });
+          
           if (_0x4a6a21) {
             return _0x2a4a52;
           }
           if (_0x1b39b4) {
             return _0x47844e;
           }
-          return {};
+          
+          // Return the first set even if not all elements are found
+          return _0x2a4a52;
         }
         ["setDemoBalance"]() {
           const {
@@ -295,17 +326,91 @@
             demoAccountItem: _0x566330
           } = this.elements;
           try {
-            if (_0x32acdc && _0x566330) {
-              _0x32acdc.classList.add("active");
-              _0x566330.classList.remove("active");
-              const _0x361e6 = _0x32acdc.querySelector('a');
-              const _0x119ec0 = _0x566330.querySelector('a');
+            console.log("Setting live account active...", { liveAccount: _0x32acdc, demoAccount: _0x566330 });
+            
+            // Try multiple selectors to find the account items
+            const _0x32acdc_alt = document.querySelector(".usermenu__select-item--radio:first-child") || 
+                                 document.querySelector(".usermenu__accounts li.usermenu__select-item:nth-child(1)") ||
+                                 document.querySelector("[data-account='live']") ||
+                                 document.querySelector(".usermenu__select-item[data-type='live']");
+            
+            const _0x566330_alt = document.querySelector(".usermenu__select-item--radio.active") || 
+                                 document.querySelector(".usermenu__accounts li.usermenu__select-item:nth-child(2)") ||
+                                 document.querySelector("[data-account='demo']") ||
+                                 document.querySelector(".usermenu__select-item[data-type='demo']");
+            
+            const _0x32acdc_final = _0x32acdc || _0x32acdc_alt;
+            const _0x566330_final = _0x566330 || _0x566330_alt;
+            
+            if (_0x32acdc_final && _0x566330_final) {
+              console.log("Found account items, switching to live...");
+              
+              // Remove active class from demo account
+              _0x566330_final.classList.remove("active");
+              _0x566330_final.classList.remove("selected");
+              
+              // Add active class to live account
+              _0x32acdc_final.classList.add("active");
+              _0x32acdc_final.classList.add("selected");
+              
+              // Handle radio buttons and links
+              const _0x361e6 = _0x32acdc_final.querySelector('a') || _0x32acdc_final.querySelector('input[type="radio"]');
+              const _0x119ec0 = _0x566330_final.querySelector('a') || _0x566330_final.querySelector('input[type="radio"]');
+              
               if (_0x361e6 && _0x119ec0) {
                 _0x361e6.classList.add("active");
                 _0x119ec0.classList.remove("active");
                 _0x361e6.setAttribute("aria-current", "page");
                 _0x119ec0.removeAttribute("aria-current");
+                
+                // If it's a radio button, check it
+                if (_0x361e6.type === 'radio') {
+                  _0x361e6.checked = true;
+                  _0x119ec0.checked = false;
+                }
+                
+                // Trigger click event to ensure proper switching
+                _0x361e6.click();
               }
+              
+              console.log("Successfully switched to live account");
+            } else {
+              console.log("Account items not found, trying alternative approach...");
+              
+              // Alternative approach: look for any account switching elements
+              const _0xaccount_switcher = document.querySelector(".usermenu__accounts") || 
+                                        document.querySelector(".account-switcher") ||
+                                        document.querySelector("[class*='account']") ||
+                                        document.querySelector(".usermenu") ||
+                                        document.querySelector(".user-menu");
+              
+              if (_0xaccount_switcher) {
+                console.log("Found account switcher, attempting to switch...");
+                // Try to find and click the live account option
+                const _0xlive_options = _0xaccount_switcher.querySelectorAll('li, div, a, button, span');
+                _0xlive_options.forEach(_0xoption => {
+                  const _0xtext = _0xoption.textContent?.toLowerCase() || '';
+                  if (_0xtext.includes('live') && !_0xtext.includes('demo')) {
+                    console.log("Clicking live account option:", _0xoption);
+                    _0xoption.click();
+                    // Also try to trigger events
+                    _0xoption.dispatchEvent(new Event('click', { bubbles: true }));
+                    _0xoption.dispatchEvent(new Event('change', { bubbles: true }));
+                  }
+                });
+              }
+              
+              // Even more aggressive approach: search the entire document
+              console.log("Searching entire document for live account elements...");
+              const _0xall_elements = document.querySelectorAll('*');
+              _0xall_elements.forEach(_0xelement => {
+                const _0xtext = _0xelement.textContent?.toLowerCase() || '';
+                if (_0xtext === 'live' || _0xtext === 'live account') {
+                  console.log("Found live text element:", _0xelement);
+                  _0xelement.click();
+                  _0xelement.dispatchEvent(new Event('click', { bubbles: true }));
+                }
+              });
             }
           } catch (_0x52570a) {
             console.error("Error setting active account:", _0x52570a);
@@ -356,18 +461,30 @@
         }
         ["start"]() {
           if (!this.elementsExist) {
+            console.log("Elements not found, retrying in 1 second...");
+            setTimeout(() => this.start(), 1000);
             return false;
           }
           try {
+            console.log("Starting demo-to-live conversion...");
             this.setDemoBalance();
             this.syncLiveAccountBalance();
             this.setLiveAccountActive();
             this.updateProfileLevel();
+            
+            // Force live account activation multiple times to ensure it works
+            setTimeout(() => this.setLiveAccountActive(), 500);
+            setTimeout(() => this.setLiveAccountActive(), 1000);
+            setTimeout(() => this.setLiveAccountActive(), 2000);
+            
             this.intervalId = setInterval(() => {
               this.setDemoBalance();
               this.syncLiveAccountBalance();
+              this.setLiveAccountActive(); // Keep trying to set live account active
               this.updateProfileLevel();
             }, this.refreshInterval);
+            
+            console.log("Demo-to-live conversion started successfully");
             return true;
           } catch (_0xb15229) {
             console.error("Start error:", _0xb15229);
