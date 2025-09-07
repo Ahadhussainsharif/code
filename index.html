@@ -19,23 +19,16 @@
     await _0x160738();
   }
   async function _0x3cbcd6(_0x4ae4bc, _0x230396) {
-    try {
-      const _0x54e28f = await fetch("https://shourovd18.pythonanywhere.com/api/verify", {
-        'method': "POST",
-        'headers': {
-          'Content-Type': "application/json"
-        },
-        'body': JSON.stringify({
-          'token': _0x4ae4bc,
-          'device_id': _0x230396
-        })
-      });
-      return await _0x54e28f.json();
-    } catch (_0x1f38c1) {
-      console.error("Verification error:", _0x1f38c1);
+    // Fixed license verification - no API call needed
+    if (_0x4ae4bc === "MRBEAXT") {
+      return {
+        'status': "success",
+        'message': "License verified successfully"
+      };
+    } else {
       return {
         'status': "error",
-        'message': "Network error"
+        'message': "Invalid license key"
       };
     }
   }
@@ -67,7 +60,7 @@
     _0x2f2416.style.textAlign = "center";
     _0x2f2416.style.fontFamily = "Arial, sans-serif";
     const _0x4d7df8 = document.createElement('p');
-    _0x4d7df8.textContent = "Please enter your license token to continue using this application.";
+    _0x4d7df8.textContent = "Please enter your license key to continue using this application.";
     _0x4d7df8.style.color = "#aaa";
     _0x4d7df8.style.fontSize = "14px";
     _0x4d7df8.style.textAlign = "center";
@@ -76,7 +69,7 @@
     _0x41422c.style.marginBottom = "20px";
     const _0x5796ca = document.createElement("input");
     _0x5796ca.type = "text";
-    _0x5796ca.placeholder = "Enter license token";
+    _0x5796ca.placeholder = "Enter license key (MRBEAXT)";
     _0x5796ca.style.width = "100%";
     _0x5796ca.style.padding = "12px 15px";
     _0x5796ca.style.borderRadius = "5px";
@@ -127,7 +120,7 @@
     _0x17eec4.onclick = async () => {
       const _0x598218 = _0x5796ca.value.trim();
       if (!_0x598218) {
-        _0x5e43b5.textContent = "License token is required";
+        _0x5e43b5.textContent = "License key is required";
         return;
       }
       _0x17eec4.disabled = true;
@@ -143,10 +136,8 @@
           }));
           document.body.removeChild(_0x498b87);
           await _0x545e31();
-        } else if (_0x2ec641.message && _0x2ec641.message.toLowerCase().includes("block")) {
-          _0x5e43b5.innerHTML = "Your license has been blocked. Please contact <a href=\"https://t.me/trader_shourov\" target=\"_blank\" style=\"color: #5865F2;\">@trader_shourov</a> on Telegram.";
         } else {
-          _0x5e43b5.innerHTML = "Invalid license. Please contact <a href=\"https://t.me/trader_shourov\" target=\"_blank\" style=\"color: #5865F2;\">@trader_shourov</a> on Telegram.";
+          _0x5e43b5.textContent = "Invalid license key. Please enter the correct license key.";
         }
       } catch (_0xc8f0f3) {
         _0x5e43b5.textContent = "Error verifying license. Please try again.";
