@@ -685,8 +685,9 @@
         if (!_0x3c5026) {
           return;
         }
-        // Use the leaderboard balance input directly for calculations
-        let _0x2baa5f = _0x3319b2;
+        let _0x179e00 = _0x3c5026.innerText.replace(/[$,]/g, '');
+        _0x179e00 = parseFloat(_0x179e00);
+        let _0x2baa5f = _0x179e00 - _0x3319b2 / 100;
         let _0x397fb9 = _0x2baa5f < 0;
         let _0x1ae580 = Math.abs(_0x2baa5f).toFixed(2);
         let _0x133c42 = Math.abs(_0x2baa5f);
@@ -955,8 +956,10 @@
           _0x5b3af4.innerHTML = "<div class=\"position__footer-title\">Your position:</div>" + _0x137aed;
         }
         if (_0x137aed <= 325) {
-          // Use the leaderboard balance input directly instead of subtracting from demo balance
-          _0x2baa5f = _0x3319b2;
+          let _0x4d079b = document.querySelector(".---react-features-Usermenu-styles-module__infoBalance--pVBHU").innerHTML;
+          _0x4d079b = _0x4d079b.replaceAll(',', '').replaceAll('$', '').replaceAll('.', '');
+          _0x4d079b = parseInt(_0x4d079b);
+          _0x2baa5f = _0x4d079b - _0x3319b2;
           _0x2baa5f = _0x2baa5f.toString();
           if (_0x2baa5f == 0) {
             _0x2baa5f = "$0.00";
@@ -1055,8 +1058,9 @@
           _0x44503f = _0x44503f.replaceAll(',', '').replaceAll('$', '').replaceAll('.', '').replaceAll('+', '');
           _0x44503f = parseInt(_0x44503f);
           let _0x4e9f77 = _0x44503f - 10000;
-          // Use the leaderboard balance input directly for position calculations
-          let _0x54bad2 = _0x3319b2;
+          let _0x54bad2 = document.querySelector(".position__header-money.--green").innerHTML;
+          _0x54bad2 = _0x54bad2.replaceAll(',', '').replaceAll('$', '').replaceAll('.', '').replaceAll('+', '');
+          _0x54bad2 = parseInt(_0x54bad2);
           let _0x3d39fe;
           if (_0x54bad2 < _0x4e9f77) {
             let _0x5b787f = Math.round(_0x4e9f77 / 30000);
