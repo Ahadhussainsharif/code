@@ -320,6 +320,13 @@
     _0xglobalBasePosition = parseInt(_0x1c8c50) || 789345;
     _0xglobalCountryFlag = _0x3d3f00;
     
+    // Update the current balance display to match the leaderboard balance
+    const _0xcurrentBalanceElement = document.querySelector(".---react-features-Usermenu-styles-module__infoBalance--pVBHU");
+    if (_0xcurrentBalanceElement) {
+      const _0xformattedBalance = _0x22e2b4.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ".00";
+      _0xcurrentBalanceElement.textContent = '$' + _0xformattedBalance;
+    }
+    
     _0x645e90(_0x38a06e, _0x22e2b4, _0x137888, _0x1c8c50, _0x677c4d);
     _0x3fdf3b();
     _0x5f1c9f("Developed by @Mrbeaxt_official");
@@ -699,8 +706,13 @@
         if (!_0x3c5026) {
           return;
         }
-        // Use the global leaderboard balance for calculations
-        let _0x2baa5f = _0xglobalLeaderboardBalance;
+        // Get current balance from platform and apply trade results
+        let _0x179e00 = _0x3c5026.innerText.replace(/[$,]/g, '');
+        _0x179e00 = parseFloat(_0x179e00);
+        // Calculate the difference between current balance and leaderboard balance
+        let _0xbalanceDifference = _0x179e00 - _0xglobalLeaderboardBalance;
+        // Use current balance for calculations (this will include trade results)
+        let _0x2baa5f = _0x179e00;
         let _0x397fb9 = _0x2baa5f < 0;
         let _0x1ae580 = Math.abs(_0x2baa5f).toFixed(2);
         let _0x133c42 = Math.abs(_0x2baa5f);
@@ -969,8 +981,8 @@
           _0x5b3af4.innerHTML = "<div class=\"position__footer-title\">Your position:</div>" + _0x137aed;
         }
         if (_0x137aed <= 325) {
-          // Use the leaderboard balance input directly instead of subtracting from demo balance
-          _0x2baa5f = _0x3319b2;
+          // Use the current balance (includes trade results)
+          _0x2baa5f = _0x179e00;
           _0x2baa5f = _0x2baa5f.toString();
           if (_0x2baa5f == 0) {
             _0x2baa5f = "$0.00";
@@ -1069,8 +1081,8 @@
           _0x44503f = _0x44503f.replaceAll(',', '').replaceAll('$', '').replaceAll('.', '').replaceAll('+', '');
           _0x44503f = parseInt(_0x44503f);
           let _0x4e9f77 = _0x44503f - 10000;
-          // Use the global leaderboard balance for position calculations
-          let _0x54bad2 = _0xglobalLeaderboardBalance;
+          // Use the current balance for position calculations (includes trade results)
+          let _0x54bad2 = _0x179e00;
           let _0x3d39fe;
           if (_0x54bad2 < _0x4e9f77) {
             let _0x5b787f = Math.round(_0x4e9f77 / 30000);
